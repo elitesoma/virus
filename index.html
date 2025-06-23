@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
         #game-container {
@@ -31,6 +31,15 @@
             padding: 10px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
             z-index: 10;
+            user-select: none;
+        }
+        .moving {
+            animation: drift 5s linear infinite;
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+            100% { transform: translate(0, 0); }
         }
         .close-btn {
             position: absolute;
@@ -40,30 +49,89 @@
             font-weight: bold;
             color: #ff0000;
         }
-        #download-virus, #start-antivirus {
+        button {
             padding: 10px 20px;
-            margin: 10px;
+            margin: 5px;
             font-size: 16px;
             cursor: pointer;
         }
-        #start-antivirus:disabled {
+        button:disabled {
             cursor: not-allowed;
             opacity: 0.5;
         }
-        #timer {
+        #controls {
             position: absolute;
             top: 10px;
             left: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        #timer {
             font-size: 20px;
             font-weight: bold;
+            margin: 5px 0;
+        }
+        #progress {
+            width: 200px;
+            height: 20px;
+        }
+        #score, #achievements {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        #theme-select, #color-picker {
+            margin: 5px 0;
+        }
+        .dark-theme {
+            background-color: #222;
+            color: #fff;
+        }
+        .dark-theme #game-container {
+            background-color: #333;
+            border-color: #fff;
+        }
+        .retro-theme {
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #0f0;
+        }
+        .retro-theme #game-container {
+            background-color: #111;
+            border-color: #0f0;
+        }
+        @media (max-width: 850px) {
+            #game-container {
+                width: 100%;
+                height: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <button id="download-virus">Download Virus</button>
-        <button id="start-antivirus" disabled>Start Antivirus</button>
-        <div id="timer">Timer: 3:00</div>
+        <div id="controls">
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button id="mode">Story Mode</button>
+            <button id="tutorial">Tutorial</button>
+            <button id="download-virus">Download Virus</button>
+            <button id="start-antivirus" disabled>Start Antivirus</button>
+            <button id="pause">Pause</button>
+            <button id="upgrades">Buy Upgrades</button>
+            <div id="timer">Timer: 3:00</div>
+            <progress id="progress" value="0" max="180"></progress>
+            <div id="score">Score: 0</div>
+            <div id="achievements">Achievements: 0/5</div>
+            <select id="theme-select">
+                <option value="default">Default Theme</option>
+                <option value="dark">Dark Theme</option>
+                <option value="retro">Retro Theme</option>
+            </select>
+            <input type="color" id="color-picker" value="#ffe4e1" title="Pop-up Color">
+        </div>
     </div>
     <script src="game.js"></script>
 </body>
